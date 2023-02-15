@@ -1,5 +1,6 @@
 package com.essexboy.sixtysix;
 
+import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +20,7 @@ class PlayerServiceTest {
 
     @Test
     void getOne() {
-        final Player player = service.get(1l);
+        final Player player = service.get(1L);
         assertEquals("Gordon",player.getFirstName());
     }
 
@@ -37,5 +38,11 @@ class PlayerServiceTest {
         assertEquals(23,service.get().size());
         service.delete(23l);
         assertEquals(22,service.get().size());
+    }
+    
+    @Test
+    void findHighestCaps()
+    {
+        assertEquals(68,service.mostCaps().getCaps());
     }
 }
