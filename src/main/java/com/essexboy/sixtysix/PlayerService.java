@@ -43,4 +43,35 @@ public class PlayerService {
     public void delete(Long id) {
         repository.deleteById(id);
     }
+    
+    public Player mostCaps()
+    {
+        List<Player> allPlayers = repository.findAll();
+        Player mostCapsPlayer = allPlayers.get(0);
+        for(Player player:allPlayers)
+        {
+            if(player.getCaps() > mostCapsPlayer.getCaps())
+            {
+                mostCapsPlayer = player;
+            }
+        }
+        return mostCapsPlayer;
+    }
+    
+    public List<Player> sortByCaps()
+    {
+        List<Player> allPlayers = repository.findAll();
+        for(int i = 0; i<allPlayers.size();i++)
+        {
+            for(int j = 1; j<allPlayers.size()-i-1; j++)
+            {
+                if(allPlayers.get(j).getCaps() > allPlayers.get(j+1).getCaps())
+                {
+                    allPlayers.add(j-1, allPlayers.get(j+1));
+                    allPlayers.remove(j+2);
+                }
+            }
+        }
+        return allPlayers;
+    }
 }

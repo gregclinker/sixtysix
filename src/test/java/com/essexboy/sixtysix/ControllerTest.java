@@ -32,4 +32,20 @@ class ControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo(json)));
     }
+    
+    @Test
+    void getId() throws Exception 
+    {
+        mvc.perform(MockMvcRequestBuilders.get("/players/0")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+    
+    @Test
+    void deleteId() throws Exception 
+    {
+        mvc.perform(MockMvcRequestBuilders.delete("/players/0")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 }

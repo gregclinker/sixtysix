@@ -85,7 +85,21 @@ public class Controller {
     })
     @DeleteMapping("/players/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
-        service.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+            service.delete(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+    @Operation(summary = "All players sorted by caps")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found players",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Player.class))}),
+            @ApiResponse(responseCode = "500", description = "System down",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = SystemException.class))})
+    })
+    @GetMapping("/players/sorted")
+    public ResponseEntity<List<Player>> sortByCaps() {
+        return new ResponseEntity<>(service.sortByCaps(), HttpStatus.OK);
     }
 }
