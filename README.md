@@ -14,11 +14,5 @@ test
 test
 test
 test
-<<<<<<< HEAD
 test
-test
-test
-=======
-test
->>>>>>> c0532bceb2e110178eff77110369a37ab186f8fd
 test
