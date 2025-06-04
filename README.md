@@ -4,3 +4,5 @@
 to get the open-api definition http://localhost:8080/swagger-ui.html
 
 to get all the players http://localhost:8080/players
+
+test1
