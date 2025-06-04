@@ -1,4 +1,4 @@
-name: Push a new tag with preminor update
+name: Push a new version tag
 
 permissions:
   contents: write
