@@ -34,6 +34,8 @@ jobs:
           level: patch
 
       - uses: actions-ecosystem/action-push-tag@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_PAT }}
         with:
           run: echo "::workflow-command parameter1={data},parameter2={data}::{command value}"
           tag: ${{ steps.bump-semver.outputs.new_version }}
