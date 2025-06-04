@@ -23,6 +23,8 @@ jobs:
       - run: echo "event is:" ${{ github.event }}
 
       - uses: actions/checkout@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_PAT }}
 
       - uses: actions-ecosystem/action-get-latest-tag@v1
         id: get-latest-tag
