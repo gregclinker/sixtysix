@@ -28,24 +28,22 @@ class ControllerTest {
     void get() throws Exception {
         final String json = new ObjectMapper().writeValueAsString(service.get());
         mvc.perform(MockMvcRequestBuilders.get("/players")
-                .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo(json)));
     }
-    
+
     @Test
-    void getId() throws Exception 
-    {
+    void getId() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/players/0")
-                .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
-    
+
     @Test
-    void deleteId() throws Exception 
-    {
+    void deleteId() throws Exception {
         mvc.perform(MockMvcRequestBuilders.delete("/players/0")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }

@@ -11,17 +11,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class SixtysixApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(SixtysixApplication.class, args);
     }
-
-    @Bean
-    public OpenAPI customOpenAPI() {
-        return new OpenAPI()
-                .components(new Components())
-                .info(new Info().title("England World Cup Winning Team API").version("1.0")
-                        .license(new License().name("Apache 2.0")));
-    }
-
 }
