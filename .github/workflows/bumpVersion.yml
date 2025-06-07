@@ -1,4 +1,8 @@
-name: Create Release
+name: Push a new version tag
+
+permissions:
+  contents: write
+  pull-requests: read
 
 on:
   push:
@@ -6,62 +10,51 @@ on:
       - main
 
 jobs:
-  release:
+  bumpVersion:
+    name: Bump version & create release
     runs-on: ubuntu-latest
     steps:
+
+      - run: echo "event name is:" ${{ github.event_name }}
+      - run: echo "event type is:" ${{ github.event.action }}
+      - run: echo "event number is:" ${{ github.event.number }}
+      - run: echo "event payload is:" ${{ github.event.payload }}
+      - run: echo "event pull_request is:" ${{ github.event.pull_request }}
+      - run: echo "event pull_request.number is:" ${{ github.event.pull_request.number }}
+      - run: echo "event is:" ${{ github.event }}
+
       - uses: actions/checkout@v2
-
-      - uses: actions-ecosystem/action-get-merged-pull-request@v1
-        id: get-merged-pull-request
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: actions-ecosystem/action-release-label@v1
-        id: release-label
-        if: ${{ steps.get-merged-pull-request.outputs.title != null }}
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          labels: ${{ steps.get-merged-pull-request.outputs.labels }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_PAT }}
 
       - uses: actions-ecosystem/action-get-latest-tag@v1
         id: get-latest-tag
-        if: ${{ steps.release-label.outputs.level != null }}
-        with:
-          semver_only: true
 
       - uses: actions-ecosystem/action-bump-semver@v1
         id: bump-semver
-        if: ${{ steps.release-label.outputs.level != null }}
         with:
           current_version: ${{ steps.get-latest-tag.outputs.tag }}
-          level: ${{ steps.release-label.outputs.level }}
-
-      - uses: actions-ecosystem/action-regex-match@v2
-        id: regex-match
-        if: ${{ steps.bump-semver.outputs.new_version != null }}
-        with:
-          text: ${{ steps.get-merged-pull-request.outputs.body }}
-          regex: '```release_note([\s\S]*)```'
+          level: patch
 
       - uses: actions-ecosystem/action-push-tag@v1
-        if: ${{ steps.bump-semver.outputs.new_version != null }}
-        with:
-          tag: ${{ steps.bump-semver.outputs.new_version }}
-          message: "${{ steps.bump-semver.outputs.new_version }}: PR #${{ steps.get-merged-pull-request.outputs.number }} ${{ steps.get-merged-pull-request.outputs.title }}"
-
-      - uses: actions/create-release@v1
-        if: ${{ steps.release-label.outputs.level == 'major' || steps.release-label.outputs.level == 'minor' }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_PAT }}
+        with:
+          run: echo "::workflow-command parameter1={data},parameter2={data}::{command value}, new tag=${{ steps.bump-semver.outputs.new_version }}"
+          tag: ${{ steps.bump-semver.outputs.new_version }}
+          message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_PAT }}
         with:
           tag_name: ${{ steps.bump-semver.outputs.new_version }}
-          release_name: ${{ steps.bump-semver.outputs.new_version }}
-          body: ${{ steps.regex-match.outputs.group1 }}
-
-      - uses: actions-ecosystem/action-create-comment@v1
-        if: ${{ steps.bump-semver.outputs.new_version != null }}
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          number: ${{ steps.get-merged-pull-request.outputs.number }}
+          release_name: Release ${{ steps.bump-semver.outputs.new_version }}
           body: |
-            The new version [${{ steps.bump-semver.outputs.new_version }}](https://github.com/${{ github.repository }}/releases/tag/${{ steps.bump-semver.outputs.new_version }}) has been released :tada:
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
