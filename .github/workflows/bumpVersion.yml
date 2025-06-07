@@ -40,7 +40,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_PAT }}
         with:
-          run: echo "::workflow-command parameter1={data},parameter2={data}::{command value}"
+          run: echo "::workflow-command parameter1={data},parameter2={data}::{command value}, new tag=${{ steps.bump-semver.outputs.new_version }}"
           tag: ${{ steps.bump-semver.outputs.new_version }}
           message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
 
@@ -73,7 +73,7 @@ jobs:
           prerelease: false
 
   releaseNotes:
-    name: releaseNotes
+    name: Release Notes
     needs: [ bumpVersion, createRelease ]
     runs-on: ubuntu-latest
     steps:
