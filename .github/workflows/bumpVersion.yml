@@ -44,11 +44,20 @@ jobs:
           tag: ${{ steps.bump-semver.outputs.new_version }}
           message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
 
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_PAT }}
         with:
-          fetch-depth: 0
-          fetch-tags: true
+          tag_name: ${{ steps.bump-semver.outputs.new_version }}
+          release_name: Release ${{ steps.bump-semver.outputs.new_version }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
 
   createRelease:
     name: Create Release
