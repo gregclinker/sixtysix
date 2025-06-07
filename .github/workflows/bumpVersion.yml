@@ -10,7 +10,8 @@ on:
       - main
 
 jobs:
-  release:
+  bumpVersion:
+    name: bumpVersion
     runs-on: ubuntu-latest
     steps:
 
@@ -49,7 +50,13 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
+  releaseNotes:
+    name: releaseNotes
+    needs: bumpVersion
+    runs-on: ubuntu-latest
+    steps:
       - name: Generate release notes
         uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
         with:
           generate_release_notes: true
