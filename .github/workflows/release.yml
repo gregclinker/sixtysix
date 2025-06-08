@@ -76,6 +76,6 @@ jobs:
           release_name: Release ${{ steps.bump-semver.outputs.new_version }}
           body: |
             ### Changes in this Release
-            - title: ${{steps.get-merged-pull-request.outputs.title}}, ${{ steps.regex-match.outputs.group1.body }}
+            - ${{steps.get-merged-pull-request.outputs.title}}
           draft: false
           prerelease: false
