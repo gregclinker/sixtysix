@@ -34,7 +34,7 @@ on:
     branches: [ "main" ]
 
 env:
-  PROJECT_ID: '344691125963'
+  PROJECT_ID: 'alliance-dev-uk'
   REGION: 'europe-west2'
   SERVICE: 'my-service'
 
