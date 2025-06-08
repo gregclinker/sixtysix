@@ -58,6 +58,7 @@ jobs:
         name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
+          project_id: '${{ env.PROJECT_ID }}'
           workload_identity_provider: 'projects/344691125963/locations/global/workloadIdentityPools/github'
 
       - name: Deploy to Cloud Run
