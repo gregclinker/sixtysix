@@ -32,7 +32,8 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: echo "steps.get-merged-pull-request.outputs:" ${{ steps.get-merged-pull-request.outputs }}
+      - run: echo "steps.get-merged-pull-request.outputs.title:" ${{ steps.get-merged-pull-request.outputs.title }}
+      - run: echo "steps.get-merged-pull-request.outputs.body:" ${{ steps.get-merged-pull-request.outputs.body }}
 
       - uses: actions-ecosystem/action-release-label@v1
         id: release-label
