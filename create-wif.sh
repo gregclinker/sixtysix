@@ -50,8 +50,8 @@ gcloudExec "iam workload-identity-pools providers update-oidc \"github-actions2\
   --location=\"global\" \
   --workload-identity-pool=\"github\" \
   --display-name=\"GitHub repo provider\" \
-  --attribute-mapping=\"google.subject=assertion.sub,attribute.actor=assertion.actor,attribute.repository=assertion.repository,attribute.repository_name=assertion.repository_name\" \
-  --attribute-condition=\"assertion.repository_nme=='gregclinker/sixtysix'\" \
+  --attribute-mapping=\"google.subject=assertion.sub,attribute.actor=assertion.actor,attribute.repository=assertion.repository\" \
+  --attribute-condition=\"assertion.repository=='gregclinker/sixtysix'\" \
   --issuer-uri=\"https://token.actions.githubusercontent.com\""
 
 gcloudExec "iam workload-identity-pools providers describe 'github-actions2' \
