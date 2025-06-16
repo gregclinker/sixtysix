@@ -60,7 +60,8 @@ gcloudExec "iam workload-identity-pools providers describe 'github-actions2' \
   --workload-identity-pool=\"github\" \
   --format=\"value(name)\""
 
-#gcloudExec "iam service-accounts create \"git-hub-actions-sa\" --project \"${PROJECT_ID}\""
+gcloudExec "iam service-accounts create \"git-hub-actions-sa\" --project \"${PROJECT_ID}\""
+addRole "git-hub-actions-sa@${PROJECT_ID}.iam.gserviceaccount.com" "$PROJECT_ID" "roles/run.admin" "roles/artifactregistry.admin" "roles/iam.serviceAccountUser"
 
 # ${REPO} is the full repo name including the parent GitHub organization,
 # such as "my-org/my-repo".
@@ -70,4 +71,15 @@ gcloudExec "iam workload-identity-pools providers describe 'github-actions2' \
 gcloudExec "iam service-accounts add-iam-policy-binding \"${GITHUB_SA}@${PROJECT_ID}.iam.gserviceaccount.com\" \
   --project=\"${PROJECT_ID}\" \
   --role=\"roles/iam.workloadIdentityUser\" \
+  --member=\"principalSet://iam.googleapis.com/${WORKLOAD_IDENTITY_POOL_ID}/attribute.repository/${REPO}\""
+
+gcloudExec "run services add-iam-policy-binding \"test-1\" \
+  --project=\"${PROJECT_ID}\" \
+  --role=\"roles/run.admin\" \
+  --member=\"principalSet://iam.googleapis.com/${WORKLOAD_IDENTITY_POOL_ID}/attribute.repository/${REPO}\""
+
+gcloudExec "artifacts repositories add-iam-policy-binding \"cloud-run-source-deploy\" \
+  --location=\"europe-west2\" \
+  --project=\"${PROJECT_ID}\" \
+  --role=\"roles/artifactregistry.admin\" \
   --member=\"principalSet://iam.googleapis.com/${WORKLOAD_IDENTITY_POOL_ID}/attribute.repository/${REPO}\""
