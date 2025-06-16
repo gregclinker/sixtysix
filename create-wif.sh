@@ -1,11 +1,10 @@
 #!/bin/zsh
 # defaults
-SQL_SERVICE_ACCOUNT="sql-client"
 PROJECT_ID="alliance-dev-uk"
 PROJECT_NUMBER="344691125963"
+PROVIDER_NAME="github-gcp-deploy"
 WORKLOAD_IDENTITY_POOL_ID="projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/github"
 REPO="gregclinker/sixtysix"
-PROVIDER_NAME="github-cloud-deploy"
 #
 gcloudExec() {
   echo "gcloud $1 --quiet";
@@ -20,8 +19,6 @@ gcloudExec "config set run/region europe-west2"
 #  --project="${PROJECT_ID}" \
 #  --location=\"global\" \
 #  --display-name=\"GitHub Actions Pool\""
-
-#gcloudExec "iam workload-identity-pools providers delete \"${PROVIDER_NAME}\" --workload-identity-pool=github --location=global"
 
 gcloudExec "iam workload-identity-pools providers create-oidc \"${PROVIDER_NAME}\" \
   --project=\"${PROJECT_ID}\" \

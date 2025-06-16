@@ -53,6 +53,7 @@ on:
 
 env:
   PROJECT_ID: alliance-dev-uk
+  PROJECT_NUMBER: 344691125963
   SERVICE: test-1
   REGION: europe-west2
 
@@ -72,8 +73,8 @@ jobs:
         id: auth
         uses: 'google-github-actions/auth@v2'
         with:
-          workload_identity_provider: projects/344691125963/locations/global/workloadIdentityPools/github/providers/github-cloud-deploy
-          service_account: 344691125963-compute@developer.gserviceaccount.com
+          workload_identity_provider: projects/${{env.PROJECT_NUMBER}}/locations/global/workloadIdentityPools/github/providers/github-gcp-deploy
+          service_account: ${{env.PROJECT_NUMBER}}-compute@developer.gserviceaccount.com
           project_id: ${{ env.PROJECT_ID }}
 
       - name: Deploy to Cloud Run
