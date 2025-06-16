@@ -73,7 +73,7 @@ jobs:
         uses: 'google-github-actions/auth@v2'
         with:
           workload_identity_provider: projects/344691125963/locations/global/workloadIdentityPools/github/providers/github-actions2
-          service_account: git-hub-actions-sa@alliance-dev-uk.iam.gserviceaccount.com
+          service_account: 344691125963-compute@developer.gserviceaccount.com
           project_id: ${{ env.PROJECT_ID }}
 
       - name: Deploy to Cloud Run
