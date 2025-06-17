@@ -77,6 +77,10 @@ jobs:
           service_account: ${{env.PROJECT_NUMBER}}-compute@developer.gserviceaccount.com
           project_id: ${{ env.PROJECT_ID }}
 
+      - name: list
+        run: |
+          gcloud projects list
+
       - name: Deploy to Cloud Run
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v2
