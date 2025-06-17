@@ -54,7 +54,7 @@ on:
 env:
   PROJECT_ID: alliance-dev-uk
   PROJECT_NUMBER: 344691125963
-  SERVICE: test-1
+  SERVICE: alliance-2
   REGION: europe-west2
 
 jobs:
@@ -95,11 +95,10 @@ jobs:
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v2
         with:
-          project_id: ${{ env.PROJECT_ID }}
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
           # NOTE: If required, update to the appropriate source folder
-          source: ./
+          source: ./alliance
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
