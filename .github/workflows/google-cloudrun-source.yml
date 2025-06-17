@@ -77,6 +77,16 @@ jobs:
           service_account: ${{env.PROJECT_NUMBER}}-compute@developer.gserviceaccount.com
           project_id: ${{ env.PROJECT_ID }}
 
+      - name: create
+        run: |
+          cd alliance
+          cp .env.local .env
+          echo NEXT_PUBLIC_API_URL=https://alliance-api-__PROJECT_NUMBER__.europe-west2.run.app/ > .env.local
+          echo NEXT_PUBLIC_HOSTNAME=https://alliance-__PROJECT_NUMBER__.europe-west2.run.app >> .env.local
+          echo NEXT_PUBLIC_CONSTITUENCY=__CONSTITUENCY__ >> .env.local
+          echo NEXT_PUBLIC_MAP_KEY=__MAP_KEY__ >> .env.local
+          cat .env.local  
+
       - name: list
         run: |
           gcloud projects list
