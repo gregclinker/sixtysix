@@ -54,7 +54,7 @@ on:
 env:
   PROJECT_ID: alliance-dev-uk
   PROJECT_NUMBER: 344691125963
-  FE_SERVICE: alliance
+  FE_SERVICE: alliance-2
   BE_SERVICE: alliance-api
   CONSTITUENCY: "DEV DEV DEV"
   MAP_KEY: "AIzaSyBevkxkZDkfPoMu_-GRYx9GoOyku6jw804"
