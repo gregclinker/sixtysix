@@ -106,9 +106,9 @@ jobs:
           region: ${{ env.REGION }}
           source: ./alliance
           env_vars: |-
-            PROJECT_NUMBER="${{ env.PROJECT_NUMBER }}"
+            PROJECT_NUMBER=${{ env.PROJECT_NUMBER }}
             CONSTITUENCY="${{ env.CONSTITUENCY }}"
-            MAP_KEY="${{ env.MAP_KEY }}"
+            MAP_KEY=${{ env.MAP_KEY }}
 
       - name: Tag Artifactory Repository
         run: |
