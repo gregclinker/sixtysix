@@ -112,7 +112,7 @@ jobs:
 
       - name: Tag Artifactory Repository
         run: |
-          gcloudExec builds submit --tag europe-west2-docker.pkg.dev/${{ env.PROJECT_ID }}/cloud-run-source-deploy/${{ env.FE_SERVICE }}:${{ steps.get-latest-tag.outputs.tag }}
+          gcloud builds submit --tag europe-west2-docker.pkg.dev/${{ env.PROJECT_ID }}/cloud-run-source-deploy/${{ env.FE_SERVICE }}:${{ steps.get-latest-tag.outputs.tag }}
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
