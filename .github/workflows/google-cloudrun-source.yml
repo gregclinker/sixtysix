@@ -47,9 +47,11 @@
 name: Deploy to Cloud Run from Source
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: [ "Create Release" ]
+    branches: [ main ]
+    types:
+      - completed
 
 env:
   PROJECT_ID: alliance-dev-uk
@@ -92,10 +94,6 @@ jobs:
           echo NEXT_PUBLIC_CONSTITUENCY=__CONSTITUENCY__ >> .env.local
           echo NEXT_PUBLIC_MAP_KEY=__MAP_KEY__ >> .env.local
           cat .env.local  
-
-      - name: list
-        run: |
-          gcloud projects list
 
       - name: Deploy to Cloud Run
         id: deploy
