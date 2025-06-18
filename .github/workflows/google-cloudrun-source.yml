@@ -54,7 +54,9 @@ on:
 env:
   PROJECT_ID: alliance-dev-uk
   PROJECT_NUMBER: 344691125963
-  SERVICE: alliance
+  FE_SERVICE: alliance
+  BE_SERVICE: alliance-api
+  CONSTITUENCY: "DEV DEV DEV"
   MAP_KEY: "AIzaSyBevkxkZDkfPoMu_-GRYx9GoOyku6jw804"
   REGION: europe-west2
 
@@ -70,9 +72,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Get Latest Tag
+        id: get-latest-tag
+        uses: actions-ecosystem/action-get-latest-tag@v1
+
       - name: Google Auth
         id: auth
-        uses: 'google-github-actions/auth@v2'
+        uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: projects/${{env.PROJECT_NUMBER}}/locations/global/workloadIdentityPools/github/providers/github-gcp-deploy
           service_account: ${{env.PROJECT_NUMBER}}-compute@developer.gserviceaccount.com
@@ -96,13 +102,17 @@ jobs:
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v2
         with:
-          service: ${{ env.SERVICE }}
+          service: ${{ env.FE_SERVICE }}
           region: ${{ env.REGION }}
           source: ./alliance
           env_vars: |-
             PROJECT_NUMBER="${{ env.PROJECT_NUMBER }}"
             CONSTITUENCY="${{ env.CONSTITUENCY }}"
             MAP_KEY="${{ env.MAP_KEY }}"
+
+      - name: Tag Artifactory Repository
+        run: |
+          gcloudExec builds submit --tag europe-west2-docker.pkg.dev/${{ env.PROJECT_ID }}/cloud-run-source-deploy/${{ env.FE_SERVICE }}:${{ steps.get-latest-tag.outputs.tag }}
 
       # If required, use the Cloud Run url output in later steps
       - name: Show Output
