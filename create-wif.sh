@@ -2,7 +2,7 @@
 # defaults
 PROJECT_ID="alliance-dev-uk"
 PROJECT_NUMBER="344691125963"
-PROVIDER_NAME="github-gcp-deploy"
+PROVIDER_NAME="github-gcp-deploy2"
 WORKLOAD_IDENTITY_POOL_ID="projects/${PROJECT_NUMBER}/locations/global/workloadIdentityPools/github"
 REPO="gregclinker/sixtysix"
 #
